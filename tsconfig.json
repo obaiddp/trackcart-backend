@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",              // Use ES modules
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    
+    // Optional but safe to remove for now
+    "verbatimModuleSyntax": false,   // <-- disable for Node + ts-node
+  },
+  "ts-node": {
+    "esm": true                       // <-- required for running ES modules with ts-node
+  }
+}
