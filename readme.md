@@ -1,27 +1,19 @@
 
 === Role based access
-Admin
+admin    → full access
+manager  → menu + reports
+cashier  → billing + orders
+waiter   → place orders only
+kitchen  → view + update status only
 Customer
-Staff
-
 
 
 === Database
 
-Order {
-    id
-    orderItem
-    status
-    createdAt
-}
+- Customer
+- Restaurant
 
-OrderItem {
-    menuItem,
-    quantity
-}
-
-MenuItem{
-    id
-    name,
-    price,
-}
+- MenuItem
+- ItemVariation
+- OrderItem
+- Order

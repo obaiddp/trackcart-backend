@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model MenuItem {
+	id 		Int		@id	@default(autoincrement())
+	name		String
+	available	Boolean		@default(true)
+	category	Category	@default(FOOD)
+	
+	variations	MenuVariation[]
+	orderItems	OrderItem[]
+
+	createdAt	DateTime	@default(now())
+}
+
+model MenuVariation {
+	id 		Int		@id	@default(autoincrement())
+	size		Size
+	price		Float
+
+	menuItemId	Int
+	menuItem	MenuItem	@relation(fields: [menuItemId], references: [id])
+
+	orderItems	OrderItem[]
+}
+
+model OrderItem {
+	id		Int		@id	@default(autoincrement())
+	quantity 	Int
+
+	menuItemId	Int
+	menuItem	MenuItem	@relation(fields: [menuItemId], references: [id])
+
+	menuVariationId	Int
+	menuVariation	MenuVariation	@relation(fields: [menuVariationId], references: [id])
+
+	orderId		Int
+	order		Order		@relation(fields: [orderId], references: [id])
+}
+
+model Order {
+	id		Int		@id	@default(autoincrement())
+
+	type		Type		@default(DINE_IN)
+	status		Status
+	priority	Boolean		@default(false)
+
+	items		OrderItem[]
+}
+
+
+enum Category {
+	FOOD
+	DRINK
+	DESSERT
+}
+
+enum Size {
+	SMALL
+	MEDIUM
+	LARGE
+}
+
+enum Status {
+	PENDING
+	PREPARED
+	READY
+	SERVED
+	PAID
+}
+
+enum Type {
+	DINE_IN
+	TAKE_AWAY
+	DELIVERY
+}
